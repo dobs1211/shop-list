@@ -73,5 +73,8 @@ app.delete('/items/:id', function(req,res) {
    });
 });
 
+exports.app = app;
+exports.storage = storage;
+
 
 app.listen(process.env.PORT || 8080, process.env.IP);

@@ -1,8 +1,30 @@
+global.DATABASE_URL = 'mongodb://localhost/shopping-list-test';
+
+var chai = require('chai');
+var chaiHttp = require('chai-http');
+
+var server = require('../server.js');
+var Item = require('../models/item');
+
+var should = chai.should();
+var app = server.app;
+
+chai.use(chaiHttp);
+
 describe('Shopping List', function() {
-    it('should list items on get');
-    it('should add an item on post');
-    it('should edit an item on put');
-    it('should delete an item on delete');
-    it('should post to an id that exists');
-    it('should post without body data');
+    before(function(done) {
+        server.runServer(function() {
+            Item.create({name: 'Broad beans'},
+                        {name: 'Tomatoes'},
+                        {name: 'Peppers'}, function() {
+                done();
+            });
+        });
     });
+
+    after(function(done) {
+        Item.remove(function() {
+            done();
+        });
+    });
+});
